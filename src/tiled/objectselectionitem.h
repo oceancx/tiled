@@ -41,7 +41,8 @@ class ObjectSelectionItem : public QGraphicsObject
     Q_OBJECT
 
 public:
-    ObjectSelectionItem(MapDocument *mapDocument);
+    ObjectSelectionItem(MapDocument *mapDocument,
+                        QGraphicsItem *parent = nullptr);
 
     // QGraphicsItem interface
     QRectF boundingRect() const override { return QRectF(); }

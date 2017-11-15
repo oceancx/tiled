@@ -47,8 +47,8 @@ class LayerItem;
 class MapDocument;
 class MapObjectItem;
 class MapScene;
+class MapItem;
 class ObjectGroupItem;
-class ObjectSelectionItem;
 
 /**
  * A graphics scene that represents the contents of a map.
@@ -84,24 +84,6 @@ public:
     bool isGridVisible() const { return mGridVisible; }
 
     /**
-     * Returns the set of selected map object items.
-     */
-    const QSet<MapObjectItem*> &selectedObjectItems() const
-    { return mSelectedObjectItems; }
-
-    /**
-     * Sets the set of selected map object items. This translates to a call to
-     * MapDocument::setSelectedObjects.
-     */
-    void setSelectedObjectItems(const QSet<MapObjectItem*> &items);
-
-    /**
-     * Returns the MapObjectItem associated with the given \a mapObject.
-     */
-    MapObjectItem *itemForObject(MapObject *object) const
-    { return mObjectItems.value(object); }
-
-    /**
      * Enables the selected tool at this map scene.
      * Therefore it tells that tool, that this is the active map scene.
      */
@@ -112,9 +94,6 @@ public:
      * Sets the currently selected tool.
      */
     void setSelectedTool(AbstractTool *tool);
-
-signals:
-    void selectedObjectItemsChanged();
 
 protected:
     /**
@@ -184,16 +163,13 @@ private slots:
     void syncAllObjectItems();
 
 private:
-    void createLayerItems(const QList<Layer *> &layers);
-    LayerItem *createLayerItem(Layer *layer);
-
     void updateDefaultBackgroundColor();
     void updateSceneRect();
-    void updateCurrentLayerHighlight();
 
     bool eventFilter(QObject *object, QEvent *event) override;
 
     MapDocument *mMapDocument;
+    MapItem *mMapItem;
     AbstractTool *mSelectedTool;
     AbstractTool *mActiveTool;
     bool mGridVisible;
@@ -203,13 +179,7 @@ private:
     bool mUnderMouse;
     Qt::KeyboardModifiers mCurrentModifiers;
     QPointF mLastMousePos;
-    QMap<Layer*, LayerItem*> mLayerItems;
-    QGraphicsRectItem *mDarkRectangle;
     QColor mDefaultBackgroundColor;
-    ObjectSelectionItem *mObjectSelectionItem;
-
-    QMap<MapObject*, MapObjectItem*> mObjectItems;
-    QSet<MapObjectItem*> mSelectedObjectItems;
 };
 
 } // namespace Internal
