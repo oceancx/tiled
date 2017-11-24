@@ -107,11 +107,11 @@ WindowsInstallerPackage {
     }
 
     // This is a clever hack to make the rule that compiles the installer
-    // depend on all installables, since that rule implicitly depends on
+    // depends on all installables, since that rule implicitly depends on
     // any "wxi" tagged products.
     Rule {
         multiplex: true
-        inputs: ["installable"]
+        inputsFromDependencies: ["installable"]
 
         Artifact {
             filePath: "dummy.wxi"
